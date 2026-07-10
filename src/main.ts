@@ -14,8 +14,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
-  // Global validation: strips unknown properties, rejects invalid payloads,
-  // and auto-transforms incoming payloads into their DTO classes.
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -25,10 +23,9 @@ async function bootstrap() {
     }),
   );
 
-  // Every uncaught / thrown exception is normalized into a single response shape.
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  // Every successful response is wrapped into { success, message, data }.
+
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   const config = new DocumentBuilder()
@@ -44,9 +41,9 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  // eslint-disable-next-line no-console
+
   console.log(`Booking Platform API running on http://localhost:${port}/api/v1`);
-  // eslint-disable-next-line no-console
+
   console.log(`Swagger docs available at http://localhost:${port}/docs`);
 }
 bootstrap();
