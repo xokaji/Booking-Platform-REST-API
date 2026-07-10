@@ -9,13 +9,6 @@ import { QueryBookingDto } from './dto/query-booking.dto';
 export class BookingsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Public endpoint — no authentication required, per the assignment's
-   * business rules. All server-side rules are still enforced here:
-   *  1. The referenced service must exist and be active.
-   *  2. The booking date cannot be in the past (also validated at the DTO level).
-   *  3. No duplicate booking may exist for the same service + date + time.
-   */
   async create(dto: CreateBookingDto) {
     const service = await this.prisma.service.findUnique({ where: { id: dto.serviceId } });
     if (!service) {
@@ -89,10 +82,7 @@ export class BookingsService {
     return { message: 'Booking retrieved successfully', data: booking };
   }
 
-  /**
-   * Enforces the status transition rule: a CANCELLED booking can never
-   * move to COMPLETED (or anywhere else — cancellation is terminal).
-   */
+
   async updateStatus(id: string, dto: UpdateBookingStatusDto) {
     const booking = await this.findBookingOrThrow(id);
 

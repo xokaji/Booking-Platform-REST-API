@@ -9,12 +9,6 @@ import {
 import { Request, Response } from 'express';
 import { Prisma } from '@prisma/client';
 
-/**
- * Centralized error handler. Every exception thrown anywhere in the app
- * (HttpException, Prisma errors, or unexpected runtime errors) is
- * normalized into the same JSON error shape and never leaks internal
- * stack traces or driver-level error details to the client.
- */
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(HttpExceptionFilter.name);
