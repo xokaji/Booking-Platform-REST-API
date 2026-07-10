@@ -3,11 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../dto/api-response.dto';
 
-/**
- * Wraps every successful controller return value into a consistent
- * { success, message, data } envelope, so consumers never have to guess
- * the response shape.
- */
+
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, ApiResponse<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<ApiResponse<T>> {
